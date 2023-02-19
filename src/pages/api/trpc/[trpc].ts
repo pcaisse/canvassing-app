@@ -4,7 +4,10 @@
  */
 import * as trpcNext from "@trpc/server/adapters/next";
 import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 import { publicProcedure, router } from "~/server/trpc";
+
+const prisma = new PrismaClient();
 
 const appRouter = router({
   greeting: publicProcedure
@@ -22,10 +25,9 @@ const appRouter = router({
         // 💡 Tip: Try adding a new property here and see it propagate to the client straight-away
       };
     }),
-  // 💡 Tip: Try adding a new procedure here and see if you can use it in the client!
-  // getUser: publicProcedure.query(() => {
-  //   return { id: '1', name: 'bob' };
-  // }),
+  allNotes: publicProcedure.query(async () => {
+    return await prisma.note.findMany();
+  }),
 });
 
 // export only the type definition of the API
