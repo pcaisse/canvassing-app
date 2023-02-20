@@ -6,26 +6,37 @@ export default function Note({
   note,
   onSave,
 }: {
-  note: NoteModel | undefined;
+  note: NoteModel | null | undefined;
   onSave: (note: SaveNoteData) => void;
 }): React.ReactElement {
-  const [noteData, setNoteData] = useState<SaveNoteData>(
-    note || { name: "", note: "" }
-  );
+  const [noteData, setNoteData] = useState<SaveNoteData>({
+    id: note?.id,
+    name: note?.name || "",
+    note: note?.note || "",
+    createdAt: note?.createdAt,
+    updatedAt: note?.updatedAt,
+  });
+  console.log("noteData", noteData);
   return (
-    <div style={styles}>
+    <div key={note?.id} style={styles}>
       <div style={{ display: "flex" }}>
         <input
           type="text"
           placeholder="Person's name"
-          value={note?.name}
+          defaultValue={note?.name}
           onChange={(event) =>
             setNoteData({ ...noteData, name: event.currentTarget.value })
           }
         />
       </div>
       <div style={{ display: "flex" }}>
-        <textarea value={note?.note} placeholder="Notes on interaction" />
+        <textarea
+          placeholder="Notes on interaction"
+          defaultValue={note?.note}
+          onChange={(event) =>
+            setNoteData({ ...noteData, note: event.currentTarget.value })
+          }
+        />
       </div>
       <button onClick={() => onSave(noteData)}>Save</button>
     </div>

@@ -7,9 +7,10 @@
  * @see https://trpc.io/docs/v10/router
  * @see https://trpc.io/docs/v10/procedures
  */
-import { initTRPC } from '@trpc/server';
+import { initTRPC } from "@trpc/server";
+import superjson from "superjson";
 
-const t = initTRPC.create();
+const t = initTRPC.create({ transformer: superjson });
 
 /**
  * Unprotected procedure

@@ -18,7 +18,23 @@ export default function IndexPage() {
         <h1>{result.data.length} notes found.</h1>
       </div>
       <div style={{ display: "flex" }}>
-        <Link href="new">
+        <ul>
+          {result.data.map((note) => (
+            <li key={note.id}>
+              <Link
+                href={{
+                  pathname: "/note/[id]",
+                  query: { id: note.id },
+                }}
+              >
+                Note {note.id} ({note.name} - {note.note})
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div style={{ display: "flex" }}>
+        <Link href="note">
           <button>Create new note</button>
         </Link>
       </div>

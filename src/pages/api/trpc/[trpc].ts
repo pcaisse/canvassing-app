@@ -4,12 +4,18 @@
  */
 import * as trpcNext from "@trpc/server/adapters/next";
 import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 import { publicProcedure, router } from "~/server/trpc";
 import { saveNoteData } from "./data";
 
 const prisma = new PrismaClient();
 
 const appRouter = router({
+  getNote: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      return await prisma.note.findUnique({ where: { id: input.id } });
+    }),
   allNotes: publicProcedure.query(async () => {
     return await prisma.note.findMany();
   }),
