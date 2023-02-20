@@ -16,9 +16,11 @@ export default function Note({
     createdAt: note?.createdAt,
     updatedAt: note?.updatedAt,
   });
-  console.log("noteData", noteData);
   return (
-    <div key={note?.id} style={styles}>
+    <>
+      <div style={{ display: "flex" }}>
+        <h2>{note ? "Saved Note" : "New Note"}</h2>
+      </div>
       <div style={{ display: "flex" }}>
         <input
           type="text"
@@ -39,15 +41,6 @@ export default function Note({
         />
       </div>
       <button onClick={() => onSave(noteData)}>Save</button>
-    </div>
+    </>
   );
 }
-
-const styles: CSSProperties = {
-  width: "100vw",
-  height: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  flexDirection: "column",
-  alignItems: "center",
-};
