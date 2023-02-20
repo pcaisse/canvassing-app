@@ -1,6 +1,5 @@
-/**
- * This is a Next.js page.
- */
+import Link from "next/link";
+import { CSSProperties } from "react";
 import { trpc } from "../utils/trpc";
 
 export default function IndexPage() {
@@ -15,15 +14,23 @@ export default function IndexPage() {
   }
   return (
     <div style={styles}>
-      <h1>{result.data.length} notes found.</h1>
+      <div style={{ display: "flex" }}>
+        <h1>{result.data.length} notes found.</h1>
+      </div>
+      <div style={{ display: "flex" }}>
+        <Link href="new">
+          <button>Create new note</button>
+        </Link>
+      </div>
     </div>
   );
 }
 
-const styles = {
+const styles: CSSProperties = {
   width: "100vw",
   height: "100vh",
   display: "flex",
   justifyContent: "center",
+  flexDirection: "column",
   alignItems: "center",
 };

@@ -3,30 +3,21 @@
  * On a bigger app, you will probably want to split this file up into multiple files.
  */
 import * as trpcNext from "@trpc/server/adapters/next";
-import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { publicProcedure, router } from "~/server/trpc";
+import { saveNoteData } from "./data";
 
 const prisma = new PrismaClient();
 
 const appRouter = router({
-  greeting: publicProcedure
-    // This is the input schema of your procedure
-    // 💡 Tip: Try changing this and see type errors on the client straight away
-    .input(
-      z.object({
-        name: z.string().nullish(),
-      })
-    )
-    .query(({ input }) => {
-      // This is what you're returning to your client
-      return {
-        text: `hello ${input?.name ?? "world"}`,
-        // 💡 Tip: Try adding a new property here and see it propagate to the client straight-away
-      };
-    }),
   allNotes: publicProcedure.query(async () => {
     return await prisma.note.findMany();
+  }),
+  saveNote: publicProcedure.input(saveNoteData).mutation(async ({ input }) => {
+    if (input?.id) {
+      return await prisma.note.update({ where: { id: input.id }, data: input });
+    }
+    return await prisma.note.create({ data: input });
   }),
 });
 
