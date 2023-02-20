@@ -22,7 +22,17 @@ export default function IndexPage() {
                   query: { id: note.id },
                 }}
               >
-                Note {note.id} ({note.name} - {note.note})
+                <span
+                  style={{
+                    display: "inline-block",
+                    textOverflow: "ellipsis",
+                    width: 300,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  Note {note.id} ({note.name} - {note.note})
+                </span>
               </Link>
             </li>
           ))}
