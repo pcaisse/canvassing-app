@@ -1,7 +1,9 @@
 import { Note as NoteModel } from "@prisma/client";
-import { CSSProperties, useState } from "react";
+import { useState } from "react";
 import { SaveNoteData } from "~/pages/api/trpc/data";
 
+// FIXME: Bug related to statefulness whereby immediately re-editing a saved
+// note shows old values. Refreshing page fixes issue.
 export default function Note({
   note,
   onSave,
