@@ -18,7 +18,10 @@ const appRouter = router({
   }),
   saveNote: publicProcedure.input(saveNoteData).mutation(async ({ input }) => {
     if (input?.id) {
-      return await prisma.note.update({ where: { id: input.id }, data: input });
+      return await prisma.note.update({
+        where: { id: input.id },
+        data: { ...input, updatedAt: new Date() },
+      });
     }
     return await prisma.note.create({ data: input });
   }),
